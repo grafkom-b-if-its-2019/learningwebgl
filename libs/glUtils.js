@@ -5,9 +5,9 @@
     checkWebGL: function(canvas) {
       var contexts = ["webgl", "experimental-webgl", "webkit-3d", "moz-webgl"];
       var gl;
-      for (var index = 0; index < contexts.length; index++) {
+      for (var i = 0; i < contexts.length; i++) {
         try {
-          var context = contexts[index];
+          var context = contexts[i];
           gl = canvas.getContext(context);
         } catch (error) {
           // Sementara kosong
@@ -158,7 +158,7 @@
           this.loadedSignal.dispatch();
         }
       },
-      processShader: function(req,element) {
+      processShader: function(req, element) {
         glUtils.SL.slShaderCount--;
         var version = element.getAttribute(glUtils.SL.dataVersion);
         if(!glUtils.SL.Shaders[version]) {

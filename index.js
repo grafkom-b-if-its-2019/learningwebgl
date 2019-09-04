@@ -7,6 +7,8 @@
     var gl = glUtils.checkWebGL(canvas);
   
     // Inisialisasi shaders dan program
+    console.log("\nVERTEX SOURCE CODE:\n" + glUtils.SL.Shaders.v1.vertex);
+    console.log("\nFRAGMENT SOURCE CODE:\n" + glUtils.SL.Shaders.v1.fragment);
     var vertexShader = glUtils.getShader(gl, gl.VERTEX_SHADER, glUtils.SL.Shaders.v1.vertex);
     var fragmentShader = glUtils.getShader(gl, gl.FRAGMENT_SHADER, glUtils.SL.Shaders.v1.fragment);
     var program = glUtils.createProgram(gl, vertexShader, fragmentShader);
