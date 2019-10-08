@@ -1,39 +1,33 @@
 precision mediump float;
 
-attribute vec2 vPosition;
+attribute vec3 vPosition;
 attribute vec3 vColor;
 varying vec3 fColor;
-uniform float theta;
-uniform float scale;
+uniform vec3 theta;
 
 void main() {
   fColor = vColor;
-  // gl_Position = vec4(vPosition, 0.0, 1.0);
-  // p' = p
-  // p' = T * p
-  mat4 skalasi = mat4(
-    scale, 0.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0, 1.0
-  );
-  gl_Position = skalasi * vec4(vPosition, 0.0, 1.0);
-  /*
-  mat4 translasi = mat4(
+  vec3 angle = radians(theta);
+  vec3 c = cos(angle);
+  vec3 s = sin(angle);
+  mat4 rx = mat4(
     1.0, 0.0, 0.0, 0.0,
-    0.0, 1.0, 0.0, 0.0,
-    0.0, 0.0, 1.0, 0.0,
-    0.5, 0.0, 0.0, 1.0     // dx = 0.5
+    0.0, c.x, s.x, 0.0,
+    0.0, -s.x, c.x, 0.0,
+    0.0, 0.0, 0.0, 1.0
   );
-  gl_Position = translasi * vec4(vPosition, 0.0, 1.0);
-  
-  mat4 rotasi = mat4(
-    cos(theta), sin(theta), 0.0, 0.0,
-    -sin(theta), cos(theta), 0.0, 0.0,
+  mat4 ry = mat4(
+    c.y, 0.0, -s.y, 0.0,
+    0.0, 1.0, 0.0, 0.0,
+    s.y, 0.0, c.y, 0.0,
+    0.0, 0.0, 0.0, 1.0
+  );
+  mat4 rz = mat4(
+    c.z, s.z, 0.0, 0.0,
+    -s.z, c.z, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, 0.0, 1.0
   );
-  gl_Position = rotasi * vec4(vPosition, 0.0, 1.0);
-  */
+  gl_Position = rz * ry * rx * vec4(vPosition, 1.0);
 
 }
