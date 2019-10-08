@@ -12,28 +12,28 @@ void main() {
   // p' = p
   // p' = T * p
   mat4 skalasi = mat4(
-    scale, 0.0, 0.0, 0.1,
+    scale, 0.0, 0.0, 0.0,
     0.0, 1.0, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, 0.0, 1.0
   );
-  gl_Position = vec4(vPosition, 0.0, 1.0) * skalasi;
+  gl_Position = skalasi * vec4(vPosition, 0.0, 1.0);
   /*
   mat4 translasi = mat4(
-    1.0, 0.0, 0.0, 0.5,   // dx = 0.5
+    1.0, 0.0, 0.0, 0.0,
     0.0, 1.0, 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
-    0.0, 0.0, 0.0, 1.0
+    0.5, 0.0, 0.0, 1.0     // dx = 0.5
   );
-  gl_Position = vec4(vPosition, 0.0, 1.0) * translasi;
+  gl_Position = translasi * vec4(vPosition, 0.0, 1.0);
   
   mat4 rotasi = mat4(
-    cos(theta), -sin(theta), 0.0, 0.0,
-    sin(theta), cos(theta), 0.0, 0.0,
+    cos(theta), sin(theta), 0.0, 0.0,
+    -sin(theta), cos(theta), 0.0, 0.0,
     0.0, 0.0, 1.0, 0.0,
     0.0, 0.0, 0.0, 1.0
   );
-  gl_Position = gl_Position * rotasi;
+  gl_Position = rotasi * vec4(vPosition, 0.0, 1.0);
   */
 
 }
