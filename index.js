@@ -101,6 +101,32 @@
     }
     document.addEventListener('keypress', onKeyPress);
 
+    // Definisi model view dan projection
+    var mvmLoc = gl.getUniformLocation(program, 'modelview');
+    var pmLoc = gl.getUniformLocation(program, 'projection');
+    var mvm = glMatrix.mat4.create();
+    var pm = glMatrix.mat4.create();
+
+    glMatrix.mat4.lookAt(mvm,
+      glMatrix.vec3.fromValues(0.0, 0.0, 0.5),  // posisi kamera
+      glMatrix.vec3.fromValues(0.0, 0.0, 0.0),  // titik yang dilihat
+      glMatrix.vec3.fromValues(0.0, 1.0, 0.0)   // arah atas dari kamera
+    );
+
+    var fovy = 90.0;
+    var aspect = canvas.width / canvas.height;
+    var near = 0.0;
+    var far = 10;
+    glMatrix.mat4.perspective(pm,
+      fovy,
+      aspect,
+      near,
+      far
+    );
+
+    gl.uniformMatrix4fv(mvmLoc, false, mvm);
+    gl.uniformMatrix4fv(pmLoc, false, pm);
+
     function render() {
       
       theta[axis] += 0.5;  // dalam derajat
