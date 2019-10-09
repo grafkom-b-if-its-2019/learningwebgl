@@ -101,22 +101,22 @@
     }
     document.addEventListener('keypress', onKeyPress);
 
-    // Definisi model view dan projection
-    var mvmLoc = gl.getUniformLocation(program, 'modelview');
+    // Definisi view dan projection
+    var vmLoc = gl.getUniformLocation(program, 'view');
     var pmLoc = gl.getUniformLocation(program, 'projection');
-    var mvm = glMatrix.mat4.create();
+    var vm = glMatrix.mat4.create();
     var pm = glMatrix.mat4.create();
 
-    glMatrix.mat4.lookAt(mvm,
-      glMatrix.vec3.fromValues(0.0, 0.0, 0.5),  // posisi kamera
-      glMatrix.vec3.fromValues(0.0, 0.0, 0.0),  // titik yang dilihat
+    glMatrix.mat4.lookAt(vm,
+      glMatrix.vec3.fromValues(0.0, 0.0, 0.0),    // posisi kamera
+      glMatrix.vec3.fromValues(0.0, 0.0, -2.0),  // titik yang dilihat; pusat kubus akan kita pindah ke z=-2
       glMatrix.vec3.fromValues(0.0, 1.0, 0.0)   // arah atas dari kamera
     );
 
-    var fovy = 90.0;
+    var fovy = glMatrix.glMatrix.toRadian(90.0);
     var aspect = canvas.width / canvas.height;
-    var near = 0.0;
-    var far = 10;
+    var near = 0.5;
+    var far = 10.0;
     glMatrix.mat4.perspective(pm,
       fovy,
       aspect,
@@ -124,7 +124,7 @@
       far
     );
 
-    gl.uniformMatrix4fv(mvmLoc, false, mvm);
+    gl.uniformMatrix4fv(vmLoc, false, vm);
     gl.uniformMatrix4fv(pmLoc, false, pm);
 
     function render() {
@@ -138,7 +138,6 @@
       gl.drawArrays(gl.TRIANGLES, 0, 36);
       requestAnimationFrame(render); 
     }
-
     // Bersihkan layar jadi hitam
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
