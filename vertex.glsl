@@ -2,13 +2,22 @@ precision mediump float;
 
 attribute vec3 vPosition;
 attribute vec3 vColor;
+attribute vec3 vNormal;
 varying vec3 fColor;
+
 uniform vec3 theta;
 uniform mat4 projection;
 uniform mat4 view;
 
+uniform vec3 lightColor;
+uniform vec3 lightDirection;
+
 void main() {
-  fColor = vColor;
+  vec3 normal = normalize(vNormal); // Supaya jadi unit vector
+  float lightIntensity = max(dot(lightDirection, normal), 0.0);
+  vec3 diffuse = lightColor * vColor * lightIntensity;
+  fColor = diffuse;
+  
   mat4 translate = mat4(
     1.0, 0.0, 0.0, 0.0,
     0.0, 1.0, 0.0, 0.0,

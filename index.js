@@ -24,43 +24,43 @@
      *  H (  0.5, -0.5, -0.5 )
      */
     var cubeVertices = [
-      // x, y, z            r, g, b
-      -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  // depan, merah, BAD BDC
-      -0.5, -0.5,  0.5,     1.0, 0.0, 0.0,
-       0.5, -0.5,  0.5,     1.0, 0.0, 0.0,
-      -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,
-       0.5, -0.5,  0.5,     1.0, 0.0, 0.0,
-       0.5,  0.5,  0.5,     1.0, 0.0, 0.0,
-       0.5,  0.5,  0.5,     0.0, 1.0, 0.0,  // kanan, hijau, CDH CHG
-       0.5, -0.5,  0.5,     0.0, 1.0, 0.0,
-       0.5, -0.5, -0.5,     0.0, 1.0, 0.0,
-       0.5,  0.5,  0.5,     0.0, 1.0, 0.0,
-       0.5, -0.5, -0.5,     0.0, 1.0, 0.0,
-       0.5,  0.5, -0.5,     0.0, 1.0, 0.0,
-       0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  // bawah, biru, DAE DEH
-      -0.5, -0.5,  0.5,     0.0, 0.0, 1.0,
-      -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,
-       0.5, -0.5,  0.5,     0.0, 0.0, 1.0,
-      -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,
-       0.5, -0.5, -0.5,     0.0, 0.0, 1.0,
-      -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  // belakang, kuning, EFG EGH
-      -0.5,  0.5, -0.5,     1.0, 1.0, 0.0,
-       0.5,  0.5, -0.5,     1.0, 1.0, 0.0,
-      -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,
-       0.5,  0.5, -0.5,     1.0, 1.0, 0.0,
-       0.5, -0.5, -0.5,     1.0, 1.0, 0.0,
-      -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,  // kiri, cyan, FEA FAB
-      -0.5, -0.5, -0.5,     0.0, 1.0, 1.0,
-      -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,
-      -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,
-      -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,
-      -0.5,  0.5,  0.5,     0.0, 1.0, 1.0,
-       0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  // atas, magenta, GFB GBC
-      -0.5,  0.5, -0.5,     1.0, 0.0, 1.0,
-      -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,
-       0.5,  0.5, -0.5,     1.0, 0.0, 1.0,
-      -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,
-       0.5,  0.5,  0.5,     1.0, 0.0, 1.0
+      // x, y, z            r, g, b         normal
+      -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, // depan, merah, BAD BDC
+      -0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+      -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5,  0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0, // kanan, hijau, CDH CHG
+       0.5, -0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5, -0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5,  0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5, -0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5,  0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0, // bawah, biru, DAE DEH
+      -0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+      -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+       0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+      -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+       0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+      -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0, // belakang, kuning, EFG EGH
+      -0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+       0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+      -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+       0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+       0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+      -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0, // kiri, cyan, FEA FAB
+      -0.5, -0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+      -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+      -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+      -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+      -0.5,  0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+       0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0, // atas, magenta, GFB GBC
+      -0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
+      -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
+       0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
+      -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
+       0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0
     ];
 
     var cubeVBO = gl.createBuffer();
@@ -69,19 +69,23 @@
 
     var vPosition = gl.getAttribLocation(program, 'vPosition');
     var vColor = gl.getAttribLocation(program, 'vColor');
+    var vNormal = gl.getAttribLocation(program, 'vNormal');
     gl.vertexAttribPointer(
       vPosition,  // variabel yang memegang posisi attribute di shader
       3,          // jumlah elemen per attribute
       gl.FLOAT,   // tipe data atribut
       gl.FALSE,
-      6 * Float32Array.BYTES_PER_ELEMENT, // ukuran byte tiap verteks 
+      9 * Float32Array.BYTES_PER_ELEMENT, // ukuran byte tiap verteks 
       0                                   // offset dari posisi elemen di array
     );
     gl.vertexAttribPointer(vColor, 3, gl.FLOAT, gl.FALSE, 
-      6 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
+      9 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
+    gl.vertexAttribPointer(vNormal, 3, gl.FLOAT, gl.FALSE, 
+      9 * Float32Array.BYTES_PER_ELEMENT, 6 * Float32Array.BYTES_PER_ELEMENT);
 
     gl.enableVertexAttribArray(vPosition);
     gl.enableVertexAttribArray(vColor);
+    gl.enableVertexAttribArray(vNormal);
 
     var thetaLoc = gl.getUniformLocation(program, 'theta');
     var theta = [0.0, 0.0, 0.0];
@@ -89,6 +93,15 @@
     var xAxis = 0;
     var yAxis = 1;
     var zAxis = 2;
+
+    // Uniform untuk definisi cahaya
+    var lightColorLoc = gl.getUniformLocation(program, 'lightColor');
+    var lightDirectionLoc = gl.getUniformLocation(program, 'lightDirection');
+    var lightColor = [1.0, 1.0, 1.0];
+    var lightDirection = glMatrix.vec3.fromValues(2.0, 2.0, 2.0);
+    var lightDirectionNormal = glMatrix.vec3.normalize(glMatrix.vec3.create(), lightDirection);
+    gl.uniform3fv(lightColorLoc, lightColor);
+    gl.uniform3fv(lightDirectionLoc, lightDirection);
 
     function onKeyPress(event) {
       if (event.keyCode == 88 || event.keyCode == 120) {
