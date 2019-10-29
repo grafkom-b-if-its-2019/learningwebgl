@@ -97,11 +97,15 @@
     // Uniform untuk definisi cahaya
     var lightColorLoc = gl.getUniformLocation(program, 'lightColor');
     var lightDirectionLoc = gl.getUniformLocation(program, 'lightDirection');
+    var ambientColorLoc = gl.getUniformLocation(program, 'ambientColor');
     var lightColor = [1.0, 1.0, 1.0];
     var lightDirection = glMatrix.vec3.fromValues(2.0, 2.0, 2.0);
-    var lightDirectionNormal = glMatrix.vec3.normalize(glMatrix.vec3.create(), lightDirection);
+    var ambientColor = glMatrix.vec3.fromValues(0.2, 0.2, 0.2);
     gl.uniform3fv(lightColorLoc, lightColor);
     gl.uniform3fv(lightDirectionLoc, lightDirection);
+    gl.uniform3fv(ambientColorLoc, ambientColor);
+
+    var nmLoc = gl.getUniformLocation(program, 'normalMatrix');
 
     function onKeyPress(event) {
       if (event.keyCode == 88 || event.keyCode == 120) {
@@ -140,8 +144,6 @@
 
     gl.uniformMatrix4fv(vmLoc, false, vm);
     gl.uniformMatrix4fv(pmLoc, false, pm);
-
-    var nmLoc = gl.getUniformLocation(program, 'normalMatrix');
 
     function render() {
       
