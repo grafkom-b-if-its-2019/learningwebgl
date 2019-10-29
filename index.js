@@ -114,9 +114,10 @@
     }
     document.addEventListener('keypress', onKeyPress);
 
-    // Definisi view dan projection
+    // Definisi view, model, dan projection
     var vmLoc = gl.getUniformLocation(program, 'view');
     var pmLoc = gl.getUniformLocation(program, 'projection');
+    var mmLoc = gl.getUniformLocation(program, 'model');
     var vm = glMatrix.mat4.create();
     var pm = glMatrix.mat4.create();
 
@@ -140,10 +141,22 @@
     gl.uniformMatrix4fv(vmLoc, false, vm);
     gl.uniformMatrix4fv(pmLoc, false, pm);
 
+    var nmLoc = gl.getUniformLocation(program, 'normalMatrix');
+
     function render() {
       
-      theta[axis] += 0.5;  // dalam derajat
-      gl.uniform3fv(thetaLoc, theta);
+      theta[axis] += glMatrix.glMatrix.toRadian(0.5);  // dalam derajat
+      var mm = glMatrix.mat4.create();
+      glMatrix.mat4.translate(mm, mm, [0.0, 0.0, -2.0]);
+      glMatrix.mat4.rotateZ(mm, mm, theta[zAxis]);
+      glMatrix.mat4.rotateY(mm, mm, theta[yAxis]);
+      glMatrix.mat4.rotateX(mm, mm, theta[xAxis]);
+      gl.uniformMatrix4fv(mmLoc, false, mm);
+
+      // Perhitungan modelMatrix untuk vektor normal
+      var nm = glMatrix.mat3.create();
+      glMatrix.mat3.normalFromMat4(nm, mm);
+      gl.uniformMatrix3fv(nmLoc, false, nm);
 
       // Bersihkan buffernya canvas
       gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
