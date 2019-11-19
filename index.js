@@ -96,13 +96,13 @@
 
     // Uniform untuk definisi cahaya
     var lightColorLoc = gl.getUniformLocation(program, 'lightColor');
-    var lightDirectionLoc = gl.getUniformLocation(program, 'lightDirection');
+    var lightPositionLoc = gl.getUniformLocation(program, 'lightPosition');
     var ambientColorLoc = gl.getUniformLocation(program, 'ambientColor');
     var lightColor = [1.0, 1.0, 1.0];
-    var lightDirection = glMatrix.vec3.fromValues(2.0, 2.0, 2.0);
+    var lightPosition = [1., 2., 1.7];
     var ambientColor = glMatrix.vec3.fromValues(0.2, 0.2, 0.2);
     gl.uniform3fv(lightColorLoc, lightColor);
-    gl.uniform3fv(lightDirectionLoc, lightDirection);
+    gl.uniform3fv(lightPositionLoc, lightPosition);
     gl.uniform3fv(ambientColorLoc, ambientColor);
 
     var nmLoc = gl.getUniformLocation(program, 'normalMatrix');
