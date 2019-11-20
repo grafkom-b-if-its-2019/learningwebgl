@@ -7,8 +7,8 @@
     var gl = glUtils.checkWebGL(canvas);
   
     // Inisialisasi shaders dan program
-    var vertexShader = glUtils.getShader(gl, gl.VERTEX_SHADER, glUtils.SL.Shaders.v1.vertex);
-    var fragmentShader = glUtils.getShader(gl, gl.FRAGMENT_SHADER, glUtils.SL.Shaders.v1.fragment);
+    var vertexShader = glUtils.getShader(gl, gl.VERTEX_SHADER, glUtils.SL.Shaders.v2.vertex);
+    var fragmentShader = glUtils.getShader(gl, gl.FRAGMENT_SHADER, glUtils.SL.Shaders.v2.fragment);
     var program = glUtils.createProgram(gl, vertexShader, fragmentShader);
     gl.useProgram(program);
   
@@ -23,44 +23,96 @@
      *  G (  0.5,  0.5, -0.5 )
      *  H (  0.5, -0.5, -0.5 )
      */
-    var cubeVertices = [
+ /*   var cubeVertices = [
       // x, y, z            r, g, b         normal
+
       -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, // depan, merah, BAD BDC
       -0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
        0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
       -0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
        0.5, -0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
        0.5,  0.5,  0.5,     1.0, 0.0, 0.0,  0.0, 0.0, 1.0, 
+
        0.5,  0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0, // kanan, hijau, CDH CHG
        0.5, -0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
        0.5, -0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
        0.5,  0.5,  0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
        0.5, -0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
        0.5,  0.5, -0.5,     0.0, 1.0, 0.0,  1.0, 0.0, 0.0,
+
        0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0, // bawah, biru, DAE DEH
       -0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
       -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
        0.5, -0.5,  0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
       -0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
        0.5, -0.5, -0.5,     0.0, 0.0, 1.0,  0.0, -1.0, 0.0,
+
       -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0, // belakang, kuning, EFG EGH
       -0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
        0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
       -0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
        0.5,  0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
        0.5, -0.5, -0.5,     1.0, 1.0, 0.0,  0.0, 0.0, -1.0,
+
       -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0, // kiri, cyan, FEA FAB
       -0.5, -0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
       -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
       -0.5,  0.5, -0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
       -0.5, -0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
       -0.5,  0.5,  0.5,     0.0, 1.0, 1.0,  -1.0, 0.0, 0.0,
+
        0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0, // atas, magenta, GFB GBC
       -0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
       -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
        0.5,  0.5, -0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
       -0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0,
        0.5,  0.5,  0.5,     1.0, 0.0, 1.0,  0.0, 1.0, 0.0
+    ];*/
+
+    var cubeVertices = [
+      // x, y, z            u, v         normal
+
+      -0.5,  0.5,  0.5,     0.0, 1.0,  0.0, 0.0, 1.0, // depan, merah, BAD BDC
+      -0.5, -0.5,  0.5,     0.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5, -0.5,  0.5,     1.0, 0.0,  0.0, 0.0, 1.0, 
+      -0.5,  0.5,  0.5,     0.0, 1.0,  0.0, 0.0, 1.0, 
+       0.5, -0.5,  0.5,     1.0, 0.0,  0.0, 0.0, 1.0, 
+       0.5,  0.5,  0.5,     1.0, 1.0,  0.0, 0.0, 1.0, 
+
+       0.5,  0.5,  0.5,     0.0, 1.0,  1.0, 0.0, 0.0, // kanan, hijau, CDH CHG
+       0.5, -0.5,  0.5,     0.0, 0.0,  1.0, 0.0, 0.0,
+       0.5, -0.5, -0.5,     1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5,  0.5,  0.5,     0.0, 1.0,  1.0, 0.0, 0.0,
+       0.5, -0.5, -0.5,     1.0, 0.0,  1.0, 0.0, 0.0,
+       0.5,  0.5, -0.5,     1.0, 1.0,  1.0, 0.0, 0.0,
+
+       0.5, -0.5,  0.5,     0.0, 1.0,  0.0, -1.0, 0.0, // bawah, biru, DAE DEH
+      -0.5, -0.5,  0.5,     0.0, 0.0,  0.0, -1.0, 0.0,
+      -0.5, -0.5, -0.5,     1.0, 0.0,  0.0, -1.0, 0.0,
+       0.5, -0.5,  0.5,     0.0, 1.0,  0.0, -1.0, 0.0,
+      -0.5, -0.5, -0.5,     1.0, 0.0,  0.0, -1.0, 0.0,
+       0.5, -0.5, -0.5,     1.0, 1.0,  0.0, -1.0, 0.0,
+
+      -0.5, -0.5, -0.5,     0.0, 1.0,  0.0, 0.0, -1.0, // belakang, kuning, EFG EGH
+      -0.5,  0.5, -0.5,     0.0, 0.0,  0.0, 0.0, -1.0,
+       0.5,  0.5, -0.5,     1.0, 0.0,  0.0, 0.0, -1.0,
+      -0.5, -0.5, -0.5,     0.0, 1.0,  0.0, 0.0, -1.0,
+       0.5,  0.5, -0.5,     1.0, 0.0,  0.0, 0.0, -1.0,
+       0.5, -0.5, -0.5,     1.0, 1.0,  0.0, 0.0, -1.0,
+
+      -0.5,  0.5, -0.5,     0.0, 1.0,  -1.0, 0.0, 0.0, // kiri, cyan, FEA FAB
+      -0.5, -0.5, -0.5,     0.0, 0.0,  -1.0, 0.0, 0.0,
+      -0.5, -0.5,  0.5,     1.0, 0.0,  -1.0, 0.0, 0.0,
+      -0.5,  0.5, -0.5,     0.0, 1.0,  -1.0, 0.0, 0.0,
+      -0.5, -0.5,  0.5,     1.0, 0.0,  -1.0, 0.0, 0.0,
+      -0.5,  0.5,  0.5,     1.0, 1.0,  -1.0, 0.0, 0.0,
+
+       0.5,  0.5, -0.5,     0.0, 1.0,  0.0, 1.0, 0.0, // atas, magenta, GFB GBC
+      -0.5,  0.5, -0.5,     0.0, 0.0,  0.0, 1.0, 0.0,
+      -0.5,  0.5,  0.5,     1.0, 0.0,  0.0, 1.0, 0.0,
+       0.5,  0.5, -0.5,     0.0, 1.0,  0.0, 1.0, 0.0,
+      -0.5,  0.5,  0.5,     1.0, 0.0,  0.0, 1.0, 0.0,
+       0.5,  0.5,  0.5,     1.0, 1.0,  0.0, 1.0, 0.0
     ];
 
     var cubeVBO = gl.createBuffer();
@@ -68,26 +120,25 @@
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(cubeVertices), gl.STATIC_DRAW);
 
     var vPosition = gl.getAttribLocation(program, 'vPosition');
-    var vColor = gl.getAttribLocation(program, 'vColor');
+    var vTexCoord = gl.getAttribLocation(program, 'vTexCoord');
     var vNormal = gl.getAttribLocation(program, 'vNormal');
     gl.vertexAttribPointer(
       vPosition,  // variabel yang memegang posisi attribute di shader
       3,          // jumlah elemen per attribute
       gl.FLOAT,   // tipe data atribut
       gl.FALSE,
-      9 * Float32Array.BYTES_PER_ELEMENT, // ukuran byte tiap verteks 
+      8 * Float32Array.BYTES_PER_ELEMENT, // ukuran byte tiap verteks 
       0                                   // offset dari posisi elemen di array
     );
-    gl.vertexAttribPointer(vColor, 3, gl.FLOAT, gl.FALSE, 
-      9 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
+    gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, gl.FALSE, 
+      8 * Float32Array.BYTES_PER_ELEMENT, 3 * Float32Array.BYTES_PER_ELEMENT);
     gl.vertexAttribPointer(vNormal, 3, gl.FLOAT, gl.FALSE, 
-      9 * Float32Array.BYTES_PER_ELEMENT, 6 * Float32Array.BYTES_PER_ELEMENT);
+      8 * Float32Array.BYTES_PER_ELEMENT, 5 * Float32Array.BYTES_PER_ELEMENT);
 
     gl.enableVertexAttribArray(vPosition);
-    gl.enableVertexAttribArray(vColor);
+    gl.enableVertexAttribArray(vTexCoord);
     gl.enableVertexAttribArray(vNormal);
 
-    var thetaLoc = gl.getUniformLocation(program, 'theta');
     var theta = [0.0, 0.0, 0.0];
     var axis = 0;
     var xAxis = 0;
@@ -98,7 +149,7 @@
     var lightColorLoc = gl.getUniformLocation(program, 'lightColor');
     var lightPositionLoc = gl.getUniformLocation(program, 'lightPosition');
     var ambientColorLoc = gl.getUniformLocation(program, 'ambientColor');
-    var lightColor = [1.0, 1.0, 1.0];
+    var lightColor = [0.5, 0.5, 0.5];
     var lightPosition = [1., 2., 1.7];
     var ambientColor = glMatrix.vec3.fromValues(0.2, 0.2, 0.2);
     gl.uniform3fv(lightColorLoc, lightColor);
@@ -169,7 +220,51 @@
     // Bersihkan layar jadi hitam
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.enable(gl.DEPTH_TEST);
-    render();
+
+    // Uniform untuk tekstur
+    var sampler0Loc = gl.getUniformLocation(program, 'sampler0');
+    gl.uniform1i(sampler0Loc, 0);
+    // Inisialisasi tekstur
+    var texture = gl.createTexture();
+    if (!texture) {
+      reject(new Error('Gagal membuat objek tekstur'));
+    }
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    // Sementara warnai tekstur dengan sebuah 1x1 piksel biru
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]));
+    initTexture(function () {
+      render();
+    });
+
+    // Membuat mekanisme pembacaan gambar jadi tekstur
+    function initTexture(callback, args) {
+      var imageSource = 'images/txStainglass.bmp';
+      var promise = new Promise(function(resolve, reject) {
+        var image = new Image();
+        if (!image) {
+          reject(new Error('Gagal membuat objek gambar'));
+        }
+        image.onload = function() {
+          gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);
+          gl.bindTexture(gl.TEXTURE_2D, texture);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+          gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+          gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+          resolve('Sukses');
+        }
+        image.src = imageSource;
+      });
+      promise.then(function() {
+        if (callback) {
+          callback(args);
+        }
+      }, function (error) {
+        console.log('Galat pemuatan gambar', error);
+      });
+    }
+
   }
 
 })();
