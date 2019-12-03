@@ -169,6 +169,40 @@
     }
     document.addEventListener('keypress', onKeyPress);
 
+    var lastX, lastY, dragging;
+    function onMouseDown(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+      var rect = event.target.getBoundingClientRect();
+      if (rect.left <= x &&
+          rect.right > x &&
+          rect.top <= y &&
+          rect.bottom > y) {
+            lastX = x;
+            lastY = y;
+            dragging = true;
+      }
+    }
+    function onMouseUp(event) {
+      dragging = false;
+    }
+    function onMouseMove(event) {
+      var x = event.clientX;
+      var y = event.clientY;
+      if (dragging) {
+        var factor = 10 / canvas.height;
+        var dx = factor * (x - lastX);
+        var dy = factor * (y - lastY);
+        theta[yAxis] += dx;
+        theta[xAxis] += dy;
+      }
+      lastX = x;
+      lastY = y;
+    }
+    document.addEventListener('mousedown', onMouseDown);
+    document.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+
     // Definisi view, model, dan projection
     var vmLoc = gl.getUniformLocation(program, 'view');
     var pmLoc = gl.getUniformLocation(program, 'projection');
@@ -201,7 +235,7 @@
       theta[axis] += glMatrix.glMatrix.toRadian(0.5);  // dalam derajat
       var mm = glMatrix.mat4.create();
       glMatrix.mat4.translate(mm, mm, [0.0, 0.0, -2.0]);
-      glMatrix.mat4.rotateZ(mm, mm, theta[zAxis]);
+      // glMatrix.mat4.rotateZ(mm, mm, theta[zAxis]);
       glMatrix.mat4.rotateY(mm, mm, theta[yAxis]);
       glMatrix.mat4.rotateX(mm, mm, theta[xAxis]);
       gl.uniformMatrix4fv(mmLoc, false, mm);
