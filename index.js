@@ -139,7 +139,6 @@
     gl.enableVertexAttribArray(vTexCoord);
     gl.enableVertexAttribArray(vNormal);
 
-    var theta = [0.0, 0.0, 0.0];
     var axis = 0;
     var xAxis = 0;
     var yAxis = 1;
@@ -169,11 +168,15 @@
     }
     document.addEventListener('keypress', onKeyPress);
 
+    // Kontrol menggunakan mouse
     var lastX, lastY, dragging;
+    var rm = glMatrix.mat4.create();
     function onMouseDown(event) {
       var x = event.clientX;
       var y = event.clientY;
       var rect = event.target.getBoundingClientRect();
+      // Saat mouse diklik di area aktif browser,
+      //  maka flag dragging akan diaktifkan
       if (rect.left <= x &&
           rect.right > x &&
           rect.top <= y &&
@@ -184,20 +187,40 @@
       }
     }
     function onMouseUp(event) {
+      // Ketika klik kiri mouse dilepas
       dragging = false;
     }
     function onMouseMove(event) {
-      var x = event.clientX;
-      var y = event.clientY;
       if (dragging) {
-        var factor = 10 / canvas.height;
-        var dx = factor * (x - lastX);
-        var dy = factor * (y - lastY);
-        theta[yAxis] += dx;
-        theta[xAxis] += dy;
+        var x = event.clientX;
+        var y = event.clientY;
+        // Sumbu X dan Y harus selalu dipantau dan diupdate,
+        //  sehubungan dengan transformasi yang terjadi sebelumnya.
+        // Agar sumbu X dan Y di object coordinate dapat menyesuaikan diri 
+        //  dengan sumbu X dan Y di world coordinate,
+        //  maka mereka perlu ditransformasikan sesuai dengan inversi dari 
+        //  rotasi yang dieksekusi sebelumnya
+        var invrm = glMatrix.mat4.create();
+        var yaxis4 = glMatrix.vec4.create();
+        var xaxis4 = glMatrix.vec4.create();
+        // Asumsinya geser 1 piksel = putar 1/2 derajat
+        var dx = (x - lastX) / 2;
+        var dy = (y - lastY) / 2;
+        var rotX = glMatrix.glMatrix.toRadian(dy);
+        var rotY = glMatrix.glMatrix.toRadian(dx);
+        // Rotasi terhadap sumbu y global
+        glMatrix.mat4.invert(invrm, rm);
+        glMatrix.vec4.transformMat4(yaxis4, glMatrix.vec4.fromValues(0, 1, 0, 0), invrm);
+        var yaxis = glMatrix.vec3.fromValues(yaxis4[0], yaxis4[1], yaxis4[2]);
+        glMatrix.mat4.rotate(rm, rm, rotY, yaxis);
+        // Rotasi terhadap sumbu x global
+        glMatrix.mat4.invert(invrm, rm);
+        glMatrix.vec4.transformMat4(xaxis4, glMatrix.vec4.fromValues(1, 0, 0, 0), invrm);
+        var xaxis = glMatrix.vec3.fromValues(xaxis4[0], xaxis4[1], xaxis4[2]);
+        glMatrix.mat4.rotate(rm, rm, rotX, xaxis);
+        lastX = x;
+        lastY = y;
       }
-      lastX = x;
-      lastY = y;
     }
     document.addEventListener('mousedown', onMouseDown);
     document.addEventListener('mouseup', onMouseUp);
@@ -232,15 +255,35 @@
 
     function render() {
       
-      theta[axis] += glMatrix.glMatrix.toRadian(0.5);  // dalam derajat
+      var thetaSpeed = glMatrix.glMatrix.toRadian(0.5); // 1/2 derajat per frame
+      // Inisiasi matriks model
       var mm = glMatrix.mat4.create();
       glMatrix.mat4.translate(mm, mm, [0.0, 0.0, -2.0]);
-      // glMatrix.mat4.rotateZ(mm, mm, theta[zAxis]);
-      glMatrix.mat4.rotateY(mm, mm, theta[yAxis]);
-      glMatrix.mat4.rotateX(mm, mm, theta[xAxis]);
+      
+      if (!dragging) {
+        // Putar kubus secara otomatis,
+        //  tergantung pada sumbu mana yang aktif terseleksi
+        switch (axis) {
+          case xAxis:
+            glMatrix.mat4.rotate(rm, rm, thetaSpeed, glMatrix.vec3.fromValues(1, 0, 0));
+            break;
+        
+          case yAxis:
+            glMatrix.mat4.rotate(rm, rm, thetaSpeed, glMatrix.vec3.fromValues(0, 1, 0));
+            break;
+        
+          case zAxis:
+            glMatrix.mat4.rotate(rm, rm, thetaSpeed, glMatrix.vec3.fromValues(0, 0, 1));
+            break;
+        
+          default:
+            break;
+        }
+      }
+      glMatrix.mat4.multiply(mm, mm, rm);
       gl.uniformMatrix4fv(mmLoc, false, mm);
 
-      // Perhitungan modelMatrix untuk vektor normal
+      // Perhitungan matriks model untuk vektor normal
       var nm = glMatrix.mat3.create();
       glMatrix.mat3.normalFromMat4(nm, mm);
       gl.uniformMatrix3fv(nmLoc, false, nm);
